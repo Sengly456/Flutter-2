@@ -23,12 +23,13 @@ class LocationsService {
 
   //Fetch location
   List<Location> fetchLocations(){
-    if(repository == null){
-      throw Exception("Repository is not initialized.");
-    }
     return repository.getLocation();
   }
 
+   // Add the getter for availableLocations
+  static List<Location> get availableLocations {
+    return _instance?.fetchLocations() ?? [];
+  }
 
   
 
