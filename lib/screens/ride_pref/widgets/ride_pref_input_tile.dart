@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/theme/theme.dart';
-import 'package:flutter2/widgets/actions/bla_button.dart';
+import 'package:week_3_blabla_project/widgets/actions/bla_icon_button.dart';
 
+import '../../../theme/theme.dart';
+
+///
+/// This tile represents a selectable tile on the Ride Preference screen
+///
 class RidePrefInputTile extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
   final IconData leftIcon;
 
-  // If true the text is displayed lighter
+  // If true the text is displayed ligher
   final bool isPlaceHolder;
 
   // A right button can be optionally provided
@@ -38,11 +42,7 @@ class RidePrefInputTile extends StatelessWidget {
         color: BlaColors.iconLight,
       ),
       trailing: rightIcon != null
-          ? BlaButton(
-              label: "",
-              onPressed: onRightIconPressed ?? () {},
-              icon: rightIcon,
-            )
+          ? BlaIconButton(icon: rightIcon, onPressed: onRightIconPressed)
           : null,
     );
   }

@@ -1,58 +1,73 @@
 import 'package:flutter/material.dart';
 
-enum BlaButtonType { primary, secondary }
+import '../../theme/theme.dart';
 
+enum ButtonType { primary, secondary }
+
+///
+/// Button rendering for the whole application
+///
 class BlaButton extends StatelessWidget {
-  // Properties of the button
-  final String label; // The text displayed on the button
-  final IconData? icon; // Optional icon
-  final VoidCallback onPressed; // Function to execute when pressed
-  final BlaButtonType type; // Type of button: primary or secondary
+  final String text;
+  final VoidCallback? onPressed;
+  final ButtonType type;
+  final IconData? icon;
 
-  // Constructor with required and optional parameters
-  const BlaButton({
-    super.key,
-    required this.label, // The button must have a label
-    this.icon, // Icon is optional
-    required this.onPressed, // The button must have an action
-    this.type = BlaButtonType.primary, // Default type is primary
-  });
+  const BlaButton(
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      this.type = ButtonType.primary,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor;
-    Color textColor;
-    Color iconColor;
-    //logic for button style
-    switch (type) {
-      case BlaButtonType.primary:
-        backgroundColor = Colors.blue; // Primary button background color
-        textColor = Colors.white; // Primary button text color
-        iconColor = Colors.white; // Primary button icon color
-        break;
-      case BlaButtonType.secondary:
-        backgroundColor = Colors.white; // Secondary button background color
-        textColor = Colors.blue; // Secondary button text color
-        iconColor = Colors.blue; // Secondary button icon color
-        break;
-    }
-    return ElevatedButton.icon(
-      onPressed:onPressed,// Button action
-      icon: icon!=null
-      ? Icon(icon,color:iconColor) //show icon
-      :const SizedBox.shrink(),//if not use an empty space
 
-      label:Text(
-        label,
-        style: TextStyle(color: textColor),//set color
+    // Compute the rendering
+    Color backgroundColor =
+        type == ButtonType.primary ? BlaColors.primary : BlaColors.white;
+
+    BorderSide border = type == ButtonType.primary
+        ? BorderSide.none
+        : BorderSide(color: BlaColors.greyLight, width: 2);
+
+    Color textColor =
+        type == ButtonType.primary ? BlaColors.white : BlaColors.primary;
+        
+    Color iconColor =
+        type == ButtonType.primary ? BlaColors.white : BlaColors.primary;
+
+
+  	// Create the button icon - if any
+    List<Widget> children = [];
+    if (icon != null) {
+      children.add(Icon(icon, size: 20, color: iconColor,));
+      children.add(SizedBox(width: BlaSpacings.s));
+    }
+
+    // Create the button text
+    Text buttonText =
+        Text(text, style: BlaTextStyles.button.copyWith(color: textColor));
+
+    children.add(buttonText);
+
+    // Render the button
+    return SizedBox(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          padding: EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(BlaSpacings.radius),
+          ),
+          side: border,
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: children,
+        ),
       ),
-      style:ElevatedButton.styleFrom(
-        //styling 
-        backgroundColor:backgroundColor,
-        padding:const EdgeInsets.symmetric(horizontal:20,vertical:12), 
-        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
-      ) ,
-      
     );
   }
 }

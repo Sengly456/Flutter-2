@@ -20,6 +20,7 @@ class Location {
 
   const Location({required this.name, required this.country});
 
+  // Copy constructor
   Location.copy(Location other)
       : name = other.name,
         country = other.country;
