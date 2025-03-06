@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/screens/rides/widgets/ride_pref_bar.dart';
+import 'package:flutter2/service/ride_prefs_service.dart';
 
-import '../../dummy_data/dummy_data.dart';
 import '../../model/ride/ride.dart';
 import '../../model/ride_pref/ride_pref.dart';
 import '../../service/rides_service.dart';
@@ -21,8 +21,12 @@ class RidesScreen extends StatefulWidget {
 }
 
 class _RidesScreenState extends State<RidesScreen> {
-  RidePreference currentPreference =
-      fakeRidePrefs[0]; // TODO 1 :  We should get it from the service
+  late RidePreference currentPreference;
+  @override
+  void initState() {
+    super.initState();
+    currentPreference = RidePrefService.instance.currentPreference!;
+  } // TODO 1 :  We should get it from the service
 
   List<Ride> get matchingRides => RidesService.getRidesFor(currentPreference);
 
