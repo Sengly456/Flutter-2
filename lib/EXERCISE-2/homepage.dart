@@ -3,51 +3,61 @@ import 'package:flutter2/EXERCISE-2/ColorCounters.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create:(context)=>ColorCounters(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Home(),
-      ),
-      )
-  );
+  runApp(ChangeNotifierProvider(
+    create: (context) => ColorCounters(),
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Home(),
+    ),
+  ));
 }
 
 enum CardType { red, blue }
 
-class Home extends StatefulWidget {
+
+
+
+class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  
-
-  @override
   Widget build(BuildContext context) {
-    final colorCounters = Provider.of<ColorCounters>(context);
-    return Scaffold( // Add this Scaffold
-      appBar: AppBar(title: Text('Color Counter')),
-      body: Column(
-        children: [
-          ColorTap(
-            type: CardType.red,
-            tapCount: colorCounters.redTapCount,
-            onTap: colorCounters.incrementRed,
+    print('build');
+    return Consumer<ColorCounters>(
+      builder: (context, colorCounters, child) {
+        return Scaffold(
+          body: colorCounters.currentIndex == 0
+              ? ColorTapsScreen(
+                  redTapCount: colorCounters.redTapCount,
+                  blueTapCount: colorCounters.blueTapCount,
+                  onRedTap: colorCounters.incrementRed,
+                  onBlueTap: colorCounters.incrementBlue,
+                )
+              : StatisticsScreen(
+                  redTapCount: colorCounters.redTapCount,
+                  blueTapCount: colorCounters.blueTapCount,
+                ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: colorCounters.currentIndex,
+            onTap: colorCounters.setIndex,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.tap_and_play),
+                label: 'Taps',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart),
+                label: 'Statistics',
+              ),
+            ],
           ),
-          ColorTap(
-            type: CardType.blue,
-            tapCount: colorCounters.blueTapcount,
-            onTap: colorCounters.incrementblue,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
+
+
 
 class ColorTapsScreen extends StatelessWidget {
   final int redTapCount;
@@ -64,16 +74,13 @@ class ColorTapsScreen extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    print('tap');
     return Scaffold(
       appBar: AppBar(title: Text('Color Taps')),
       body: Column(
         children: [
           ColorTap(type: CardType.red, tapCount: redTapCount, onTap: onRedTap),
-          ColorTap(
-            type: CardType.blue,
-            tapCount: blueTapCount,
-            onTap: onBlueTap,
-          ),
+          ColorTap(type: CardType.blue, tapCount: blueTapCount, onTap: onBlueTap),
         ],
       ),
     );
@@ -96,6 +103,7 @@ class ColorTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('tap button');
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -129,6 +137,7 @@ class StatisticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build statistic');
     return Scaffold(
       appBar: AppBar(title: Text('Statistics')),
       body: Center(
