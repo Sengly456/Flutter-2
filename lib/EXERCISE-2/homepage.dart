@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
+    print('home page');
     return Consumer<ColorCounters>(
       builder: (context, colorCounters, child) {
         return Scaffold(
@@ -74,7 +74,7 @@ class ColorTapsScreen extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    print('tap');
+    print('tap screen');
     return Scaffold(
       appBar: AppBar(title: Text('Color Taps')),
       body: Column(
