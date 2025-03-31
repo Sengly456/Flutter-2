@@ -20,9 +20,9 @@ class CoursesProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Course getCourseFor(String courseId){
+  Course getCourseFor(String courseName){
     return _courses.firstWhere(
-      (course)=>course.name == courseId,
+      (course)=>course.name == courseName,
       );
   }
 

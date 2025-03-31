@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../models/course.dart';
 import 'course_score_form.dart';
 
-
-
 class CourseScreen extends StatelessWidget {
   final String courseName;
 
@@ -50,6 +48,7 @@ class CourseScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: mainColor,
             title: Text(course.name),
             actions: [
               IconButton(
@@ -64,4 +63,3 @@ class CourseScreen extends StatelessWidget {
     );
   }
 }
-
