@@ -38,9 +38,15 @@ class FruitProvider extends ChangeNotifier {
 
   void addFruit(String name, double price) async {
     // 1- Call repo to add
-    _repository.addFruit(name: name, price: price);
+   await _repository.addFruit(name: name, price: price);
 
     // 2- Call repo to fetch
+    fetchUsers();
+  }
+
+  Future<void> deleteFruit(String id) async{
+   await _repository.deleteFruit(id);
+
     fetchUsers();
   }
 }

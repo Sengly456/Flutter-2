@@ -7,7 +7,8 @@ import 'package:flutter2/W8-firebase/repository/Fruit_repo.dart';
 import 'package:http/http.dart' as http;
 
 class FirebaseFruitsRepository extends FruitRepository {
-  static const String baseUrl = 'https://fir-practice-c5cad-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  static const String baseUrl =
+      'https://fir-practice-c5cad-default-rtdb.asia-southeast1.firebasedatabase.app/';
   static const String fruitsCollection = "Fruits";
   static const String allFruitsUrl = '$baseUrl/$fruitsCollection.json';
 
@@ -16,7 +17,7 @@ class FirebaseFruitsRepository extends FruitRepository {
     Uri uri = Uri.parse(allFruitsUrl);
 
     // Create a new data
-    final newFruitData = {'color': name, 'price': price};
+    final newFruitData = {'name': name, 'price': price};
     final http.Response response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -41,7 +42,8 @@ class FirebaseFruitsRepository extends FruitRepository {
     final http.Response response = await http.get(uri);
 
     // Handle errors
-    if (response.statusCode != HttpStatus.ok && response.statusCode != HttpStatus.created) {
+    if (response.statusCode != HttpStatus.ok &&
+        response.statusCode != HttpStatus.created) {
       throw Exception('Failed to load');
     }
 
@@ -49,6 +51,19 @@ class FirebaseFruitsRepository extends FruitRepository {
     final data = json.decode(response.body) as Map<String, dynamic>?;
 
     if (data == null) return [];
-    return data.entries.map((entry) => FruitDto.fromJson(entry.key, entry.value)).toList();
+    return data.entries
+        .map((entry) => FruitDto.fromJson(entry.key, entry.value))
+        .toList();
+  }
+
+@override
+  Future<void> deleteFruit(String id) async {
+    Uri uri = Uri.parse("$baseUrl/$fruitsCollection/$id.json"); // Target specific fruit
+  final http.Response response = await http.delete(uri);
+
+  if (response.statusCode != HttpStatus.ok && response.statusCode != HttpStatus.noContent) {
+    throw Exception('Failed to delete fruit');
+  } 
+    
   }
 }

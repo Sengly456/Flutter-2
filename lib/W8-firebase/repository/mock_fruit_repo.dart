@@ -7,9 +7,9 @@ class MockFruitRepository extends FruitRepository {
   @override
   Future<Fruit> addFruit({required String name, required double price}) {
     return Future.delayed(Duration(seconds: 1), () {
-      Fruit newPancake = Fruit(id: "0", name: name, price: 12);
-      Fruits.add(newPancake);
-      return newPancake;
+      Fruit newFruit = Fruit(id: "0", name: name, price: 12);
+      Fruits.add(newFruit);
+      return newFruit;
     });
   }
 
@@ -17,4 +17,8 @@ class MockFruitRepository extends FruitRepository {
   Future<List<Fruit>> getFruits() {
     return Future.delayed(Duration(seconds: 1), () => Fruits);
   }
+  
+  @override
+  Future<void> deleteFruit(String id)async {}
+
 }

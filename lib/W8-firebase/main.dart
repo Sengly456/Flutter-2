@@ -34,7 +34,7 @@ class App extends StatelessWidget {
               (context, index) => ListTile(
                 title: Text(fruits[index].name),
                 subtitle: Text("${fruits[index].price}"),
-                trailing: IconButton(icon: Icon(Icons.delete, color: Colors.red), onPressed: () => {}),
+                trailing: IconButton(icon: Icon(Icons.delete, color: Colors.red), onPressed: () => fruitProvider.deleteFruit(fruits[index].id) ),
               ),
         );
       }
